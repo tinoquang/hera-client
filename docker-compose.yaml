@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  hera-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.Hera
+    ports:
+      - "10001:10001"
+    env_file:
+      - ".env.dev"
+    networks:
+      - hera
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14.1-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=heradb
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - backend_postgresql:/var/lib/postgresql
+      - backend_postgresql_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - hera
+
+volumes:
+  backend_postgresql: null
+  backend_postgresql_data: null
+
+networks:
+  hera:
+

@@ -1,0 +1,13 @@
+FROM golang:1.17-bullseye
+
+WORKDIR /hera
+
+COPY ./config .
+
+RUN go install github.com/paypal/hera/mux@latest github.com/paypal/hera/worker/postgresworker@latest
+
+RUN ln -sf $GOPATH/bin/mux . && ln -sf $GOPATH/bin/postgresworker .
+
+RUN ls -n
+
+ENTRYPOINT [ "./mux", "--name", "heraOss"]

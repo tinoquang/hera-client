@@ -1,0 +1,9 @@
+log_level=5
+
+database_type=postgres
+
+bind_ip=0.0.0.0
+bind_port=10001
+
+# dynamic config, which can be changed during runtime
+opscfg.hera.server.max_connections=50
